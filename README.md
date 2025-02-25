@@ -1,2 +1,2 @@
 # Healthhack-2025
-Repository for Chat-MediPROMpt
+Repository for Healthhack 2025
