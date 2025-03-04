@@ -1,5 +1,5 @@
 # This file contains the algorithm to retrieve questions in order from the database
-# The questions and options retrieved are stored into a struct to be passed to LLM
+# The questions and options retrieved are stored into a dictionary to be passed to LLM
 
 import iris
 import os
