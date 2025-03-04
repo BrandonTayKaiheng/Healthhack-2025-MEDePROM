@@ -1,7 +1,10 @@
 import os
+import json
 from google import genai
 from dotenv import load_dotenv
 
+with open("PROM Corpus/EQ-5D-5L_corpus.json") as file:
+    data = json.load(file)
 load_dotenv()
 client = genai.Client(api_key=os.getenv("GENAI_API_KEY"))
 
@@ -12,13 +15,15 @@ chat = client.chats.create(model="gemini-2.0-flash")
 # )
 
 # print(response.text)
+initial_prompt = f"You are a chatbot collecting Patient Reported Outcomes (PROs) EQ-5D-5L_corpus. Please ask the patient the following questions: {data[0]["question"]}"
+# prompt = input("You: ")
+response = chat.send_message(initial_prompt)
+print(response.text)
 while True:
-    prompt = input("You: ")
-    if (prompt == "exit"):
+    new_prompt = input("You: ")
+    if new_prompt == "exit":
         break
-    # print(f"Hello, {prompt}")
-    response = chat.send_message(prompt)
-
+    response = chat.send_message(new_prompt)
     print(response.text)
     # for message in chat._curated_history:
     #     print(f"role - {message.role}", end=": ")
