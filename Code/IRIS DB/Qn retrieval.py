@@ -40,6 +40,8 @@ qn_retrieve_query = f"""
     LIMIT 1;
     """
 
+# Loop through the total number of questions 
+# Modify loop based on LLM API integration 
 while (qn_num < 5):
     cursor.execute(qn_retrieve_query, (qn_num,))
     results = cursor.fetchall()
