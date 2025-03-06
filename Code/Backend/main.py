@@ -3,6 +3,18 @@ import json
 from google import genai
 from dotenv import load_dotenv
 
+## Connecting to IRIS Database 
+# Go to Docker and start IRIS instance before running this code section 
+
+# Credentials 
+username = 'demo'
+password = 'demo'
+hostname = os.getenv('IRIS_HOSTNAME', 'localhost')
+port = '1972' 
+namespace = 'USER'
+
+
+
 with open("PROM Corpus/EQ-5D-5L_corpus.json") as file:
     data = json.load(file)
 load_dotenv()
