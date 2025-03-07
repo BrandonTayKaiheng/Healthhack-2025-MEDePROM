@@ -26,52 +26,65 @@ load_dotenv()
 client = genai.Client(api_key=os.getenv("GENAI_API_KEY"))
 
 # Initialize Chat
-chat = client.chats.create(model="gemini-2.0-flash")
+chat = client.chats.create(
+    model="gemini-2.0-flash",
+    # stop sequences signal to genai the end of the conversation. they will wrap up and return 1 final response
+    config=types.GenerateContentConfig(stop_sequences=["exit", "bye", "goodbye", "stop"])
+    )
 
 
 def retrieve_question_object(qn_num):
     return data[qn_num]
 
-def generate_prompt(qn_num):
-    question_object = retrieve_question_object(qn_num)
-    return f"""You are clinical doctor collecting electronic Patient Reported Outcomes (ePROs) 
+def give_instruction():
+    chat.send_message(
+        """You are clinical doctor collecting electronic Patient Reported Outcomes (ePROs) 
             to improve healthcare quality and enhance patients' quality of life post-procedure. 
             Interview question style must be conversational, empathetic, and encourage higher levels of self disclosure.
-            Please ask the patient about {question_object['question']}.
-            These are the answers you can expect: {question_object['options']}
             Ask follow up questions until you are able to get a satisfactory answer from the patient. 
-            Pretend you are starting this conversation with the patient, who will be answering your questions one by one"""
+            """
+        )
+                      
+def generate_prompt(qn_num):
+    question_object = retrieve_question_object(qn_num)
+    return f"""Please ask the patient about {question_object['question']}.
+            You can refer to these possible answers {question_object['options']}. 
+            Now, start this conversation with the patient"""
 
 
-# parameters: chat, msg: string
+# parameters: msg: string
 # return: response: string
-def send_msg_to_genai(chat, msg):
-    pass
+def send_msg_to_genai(msg):
+    response = chat.send_message(msg)
+    return response.text
 # parameters: msg: string
 # return: response: None
 def display_msg_to_user(msg):
-    pass
+    print(msg)
+
 # parameters: None
 # return: response: string
 def get_response_from_user():
-    pass
+    response = input("User: ")
+
+    # implement save_response_to_database(response)
+
+    return response
     
 # Start Chat
 def start_chat(chat):
-    response = chat.send_message(generate_prompt(0))
-    print(response.text)
-    while True:
-        new_prompt = input("You: ")
-        if new_prompt == "exit":
-            break
-        response = chat.send_message(new_prompt)
-        print(response.text)
+    give_instruction()
+    for qns in range(0, 5):
+        response = chat.send_message(generate_prompt(qns))
+        display_msg_to_user(response.text)
+        for rounds in range(0, 3):
+            user_response = get_response_from_user()
+            # "exit" is a hard stop to terminate the program immediately
+            if user_response == "exit":
+                return
+            response = send_msg_to_genai(user_response)
+            display_msg_to_user(response)
 
 
 start_chat(chat)
-# while True:
-#     new_prompt = input("You: ")
-#     if new_prompt == "exit":
-#         break
-#     response = chat.send_message(new_prompt)
-#     print(response.text)
+
