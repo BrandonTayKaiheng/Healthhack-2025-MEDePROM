@@ -2,3 +2,5 @@ langchain-iris
 testcontainers-iris
 llama-iris
 llama-index-legacy
+google-genai
+dotenv
