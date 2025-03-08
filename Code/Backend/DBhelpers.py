@@ -27,12 +27,13 @@ def connect_to_IRIS(username, password, hostname, port, namespace):
     connect = iris.connect(CONNECTION_STRING, username, password)
     try:
         cursor = connect.cursor()
+        print("Successfully connected to IRIS")
     except:
         print("Check that IRIS instance is running on Docker")
     return cursor 
 
 # Data retrieval 
-def retieve_data(qn_num, table_name, cursor):
+def retrieve_data(qn_num, table_name, cursor):
 
     # Define sql query
     qn_retrieve_query = f""" 

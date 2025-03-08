@@ -16,7 +16,6 @@ port = '1972'
 namespace = 'USER'
 
 cursor = connect_to_IRIS(username, password, hostname, port, namespace)
-exit()
 
 # Load Database
 with open("PROM Corpus/EQ-5D-5L_corpus.json") as file:
