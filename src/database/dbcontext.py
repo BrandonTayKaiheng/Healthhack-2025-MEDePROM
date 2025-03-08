@@ -1,5 +1,4 @@
 import iris
-import os
 from utils.vectorisor import vectorise
 from dataclasses import dataclass
 
@@ -83,9 +82,7 @@ class DbContext:
 
         # Execute SQL query
         DbContext.cursor.execute(
-            sql, [number_of_results, qn_num, str(query_vector)])
+            sql, [number_of_results, str(query_vector), qn_num])
         results = DbContext.cursor.fetchall()
-        for i in results:
-            print(i)
 
         return results
