@@ -1,6 +1,6 @@
 import os
 import json
-# from DBhelpers.py import *
+from DBhelpers import connect_to_IRIS, retrieve_data, similarity_search
 from google import genai
 from google.genai import types
 from dotenv import load_dotenv
@@ -15,7 +15,8 @@ hostname = os.getenv('IRIS_HOSTNAME', 'localhost')
 port = '1972' 
 namespace = 'USER'
 
-# connect_to_IRIS(username, password, hostname, port, namespace)
+cursor = connect_to_IRIS(username, password, hostname, port, namespace)
+exit()
 
 # Load Database
 with open("PROM Corpus/EQ-5D-5L_corpus.json") as file:
