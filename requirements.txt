@@ -4,3 +4,4 @@ llama-iris
 llama-index-legacy
 google-genai
 dotenv
+google-cloud-aiplatform
