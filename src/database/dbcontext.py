@@ -1,22 +1,23 @@
 import iris
 import os
 from utils.vectorisor import vectorise
+from dataclasses import dataclass
 
-# Connect to database
-# Go to Docker and start IRIS instance before running this code section
 
-# Credentials
-# username = 'demo'
-# password = 'demo'
-# hostname = os.getenv('IRIS_HOSTNAME', 'localhost')
-# port = '1972'
-# namespace = 'USER'
+@dataclass
+class Question:
+    id: int
+    name: str
+    description: str | None
 
-# qn_num = 0
-# table_name = "ePROM_DB"
 
-# Connect to IRIS
-# Go to Docker and start IRIS instance before running this code section
+@dataclass
+class QuestionOption:
+    question_id: int
+    id: int
+    rating: int | None
+    label: str | None
+    description: str
 
 
 class DbContext:
@@ -39,58 +40,51 @@ class DbContext:
                     Is your IRIS instance is running on Docker?
                     """)
 
-    def retrieve_data(self, qn_num, table_name):
-        # Define sql query
-        qn_retrieve_query = f"""
-            SELECT DISTINCT Question
-            FROM {table_name}
-            WHERE Question_number = ?;
+    def get_all_questions(self):
+        get_all_qn_query = """
+            SELECT id, name, description
+            FROM question
             """
-
-        # Loop through the total number of questions
-        # The questions and options retrieved are stored into a dictionary to be passed to LLM
-        DbContext.cursor.execute(qn_retrieve_query, (qn_num,))
+        DbContext.cursor.execute(get_all_qn_query)
         results = DbContext.cursor.fetchall()
 
-        print(results)
+        return [Question(*q) for q in results]
 
-        if not results:
-            print("All questions asked")
+    def get_question_options(self, qn_num):
+        # Define sql query
+        get_qn_query = """
+            SELECT id, rating, label, description
+            FROM question_option
+            WHERE question_id = ?
+            """
 
-        # Extract the question and options
-        question = results[0][0]  # Question is the same for all rows
-        options = [row[1] for row in results]  # Collect all options
+        DbContext.cursor.execute(get_qn_query, (qn_num,))
+        results = DbContext.cursor.fetchall()
 
-        # Create a struct to be passed to LLM
-        question_object = {
-            "question_number": qn_num,
-            "question": question,
-            "options": options
-        }
-        return question_object
+        return [QuestionOption(qn_num, *q) for q in results]
 
-# Vectorize the patient's response for the question using Transformer model
-# Execute vector dot product similarity search
-
-    def similarity_search(self, query_phrase, table_name, number_of_results, cursor):
-
-        # Load pretrained Transformer model (we use 'all-MiniLM-L6-v2' lightweight multipurpose, can change later)
+    def search_question_option(self, qn_num, query_phrase, number_of_results):
+        # Vectorize the patient's response for the question using Transformer model
+        # Execute vector dot product similarity search
 
         # Define SQL query
-        sql = f"""
-            SELECT TOP ? Question_number, Question, Option,
-            FROM {table_name}
-            ORDER BY VECTOR_DOT_PRODUCT(Option_vector, TO_VECTOR(?)) DESC
+        sql = """
+            SELECT TOP ?
+                id,
+                VECTOR_DOT_PRODUCT(description_vector, TO_VECTOR(?))
+                    AS similarity_score
+            FROM question_option
+            WHERE question_id = ?
+            ORDER BY similarity_score DESC
         """
         # Embed query phrase into
         # Vectorize search phrase
         query_vector = vectorise(query_phrase)
 
         # Execute SQL query
-        cursor.execute(sql, [number_of_results, str(query_vector)])
-
-        # Fetch results
-        results = cursor.fetchall()
+        DbContext.cursor.execute(
+            sql, [number_of_results, qn_num, str(query_vector)])
+        results = DbContext.cursor.fetchall()
         for i in results:
             print(i)
 

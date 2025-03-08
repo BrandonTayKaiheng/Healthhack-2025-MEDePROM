@@ -8,4 +8,6 @@ if __name__ == "__main__":
     namespace = 'USER'
 
     db = dbcontext.DbContext(username, password, hostname, port, namespace)
-    db.retrieve_data(1, "SQLUser.ePROM_DB")
+    print(db.get_all_questions())
+    print(db.get_question_options(1))
+    print(db.search_question_option(1, "i am gay", 10))
