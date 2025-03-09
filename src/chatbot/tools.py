@@ -1,8 +1,8 @@
 # Specify a function declaration and parameters for an API request
-from vertexai.generative_models import (
-    FunctionDeclaration,
-    Tool,
-)
+from google.genai.types import FunctionDeclaration, Tool
+
+
+# Specify a function declaration and parameters for an API request
 
 valuate_quantitative_response_func = FunctionDeclaration(
     name="valuate_quantitative_response",

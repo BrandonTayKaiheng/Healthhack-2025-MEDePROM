@@ -1,5 +1,5 @@
 from database import dbcontext
-from model.model import Chatbot
+from chatbot.llm_bot import Chatbot
 
 if __name__ == "__main__":
     username = 'demo'
@@ -9,7 +9,6 @@ if __name__ == "__main__":
     namespace = 'USER'
 
     db = dbcontext.DbContext(username, password, hostname, port, namespace)
-    bot = Chatbot(db)
+    bot = Chatbot("AIzaSyATyT-nX1KfRx6x1tMoOAxXDYXOcji-yPE", db)
 
-    r = bot.test()
-    print(r)
+    print(bot.test())
