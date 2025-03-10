@@ -1,6 +1,6 @@
 import os
 import json
-from DBhelpers import connect_to_IRIS, retrieve_data, similarity_search
+# from DBhelpers import connect_to_IRIS, retrieve_data, similarity_search
 from google import genai
 from google.genai import types
 from dotenv import load_dotenv
@@ -15,7 +15,7 @@ hostname = os.getenv('IRIS_HOSTNAME', 'localhost')
 port = '1972' 
 namespace = 'USER'
 
-cursor = connect_to_IRIS(username, password, hostname, port, namespace)
+# cursor = connect_to_IRIS(username, password, hostname, port, namespace)
 
 # Load Database
 with open("PROM Corpus/EQ-5D-5L_corpus.json") as file:
@@ -38,10 +38,14 @@ def retrieve_question_object(qn_num):
 
 def give_instruction():
     chat.send_message(
-        """You are clinical doctor collecting electronic Patient Reported Outcomes (ePROs) 
+        """You role playing as clinical doctor collecting electronic Patient Reported Outcomes (ePROs) 
             to improve healthcare quality and enhance patients' quality of life post-procedure. 
             Interview question style must be conversational, empathetic, and encourage higher levels of self disclosure.
             Ask follow up questions until you are able to get a satisfactory answer from the patient. 
+            The format is as follow:
+            Doctor: {question}
+            Patient: {response}
+            Do not generate a response for the patient. It will be sent to you. 
             """
         )
                       
