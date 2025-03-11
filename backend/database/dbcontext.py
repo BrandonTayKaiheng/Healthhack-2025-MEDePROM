@@ -36,7 +36,7 @@ class DbContext:
     def get_question_options(self, qn_num):
         # Define sql query
         get_qn_query = """
-            SELECT id, rating, label, description
+            SELECT id, description
             FROM question_option
             WHERE question_id = ?
             """
@@ -70,3 +70,35 @@ class DbContext:
         results = DbContext.cursor.fetchall()
 
         return results
+
+    def create_session(self, name):
+        sql = """
+            INSERT INTO session
+            (name)
+            VALUES (?)
+        """
+
+        DbContext.cursor.execute(sql, [name])
+
+    def save_session_history(self, session, record_time, role, system, record):
+        sql = """
+            INSERT INTO session_history
+            (session_name, record_time, user_role, system, record)
+            VALUES (?, ?, ?, ?, ?)
+        """
+
+        DbContext.cursor.execute(
+            sql, [session, record_time, role, system, record])
+
+    def save_session_ans(self, session, question_id, option, summary):
+        most_likely_option = self.search_question_option(
+            question_id, option, 1)
+
+        sql = """
+            INSERT INTO session_qn_ans
+            (session_name, question_id, option_id, summary)
+            VALUES (?, ?, ?, ?)
+        """
+
+        DbContext.cursor.execute(
+            sql, [session, question_id, most_likely_option[0][0], summary])

@@ -12,6 +12,4 @@ class Question:
 class QuestionOption:
     question_id: int
     id: int
-    rating: int | None
-    label: str | None
     description: str
