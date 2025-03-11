@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  backend:
+    build: 
+      context: backend
+      dockerfile: backend/Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - DB_HOSTNAME=iris
+      - DB_USERNAME=demo
+      - DB_PASSWORD=demo
+      - DB_PORT=1972
+      - DB_NAMESPACE=USER
+    env_file:
+      - .env
+    depends_on:
+      - iris
+
+  iris:
+    build:
+      context: .
+      dockerfile: iris/Dockerfile
+    ports:
+      - "1972:1972"
+      - "52773:52773"
+    environment:
+      - ISC_DATA_DIRECTORY=/data
+    volumes:
+      - iris-data:/data
+
+volumes:
+  iris-data: 

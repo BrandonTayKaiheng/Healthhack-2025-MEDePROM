@@ -5,22 +5,24 @@ import os
 from sentence_transformers import SentenceTransformer
 
 # Connect to database
-# Go to Docker and start IRIS instance before running this code section 
+# Go to Docker and start IRIS instance before running this code section
 
-# Credentials 
-# username = 'demo'
-# password = 'demo'
-# hostname = os.getenv('IRIS_HOSTNAME', 'localhost')
-# port = '1972' 
-# namespace = 'USER'
+# Credentials
+username = 'demo'
+password = 'demo'
+hostname = os.getenv('IRIS_HOSTNAME', 'localhost')
+port = '1972'
+namespace = 'USER'
 
 # qn_num = 0
 # table_name = "ePROM_DB"
 
-# Connect to IRIS 
-# Go to Docker and start IRIS instance before running this code section 
+# Connect to IRIS
+# Go to Docker and start IRIS instance before running this code section
+
+
 def connect_to_IRIS(username, password, hostname, port, namespace):
-    # Concat connection string 
+    # Concat connection string
     CONNECTION_STRING = f"{hostname}:{port}/{namespace}"
 
     # Connect to IRIS
@@ -30,13 +32,15 @@ def connect_to_IRIS(username, password, hostname, port, namespace):
         print("Successfully connected to IRIS")
     except:
         print("Check that IRIS instance is running on Docker")
-    return cursor 
+    return cursor
 
-# Data retrieval 
+# Data retrieval
+
+
 def retrieve_data(qn_num, table_name, cursor):
 
     # Define sql query
-    qn_retrieve_query = f""" 
+    qn_retrieve_query = f"""
 
         SELECT DISTINCT Question
         FROM {table_name}
@@ -44,7 +48,7 @@ def retrieve_data(qn_num, table_name, cursor):
         LIMIT 1;
         """
 
-    # Loop through the total number of questions 
+    # Loop through the total number of questions
     # The questions and options retrieved are stored into a dictionary to be passed to LLM
     while (qn_num < 5):
         cursor.execute(qn_retrieve_query, (qn_num,))
@@ -57,7 +61,7 @@ def retrieve_data(qn_num, table_name, cursor):
         question = results[0][0]  # Question is the same for all rows
         options = [row[1] for row in results]  # Collect all options
 
-        # Create a struct to be passed to LLM 
+        # Create a struct to be passed to LLM
         question_object = {
             "question_number": qn_num,
             "question": question,
@@ -66,21 +70,27 @@ def retrieve_data(qn_num, table_name, cursor):
         return question_object
 
 # Vectorize the patient's response for the question using Transformer model
-# Execute vector dot product similarity search 
+# Execute vector dot product similarity search
+
+
 def similarity_search(query_phrase, table_name, number_of_results, cursor):
 
     # Load pretrained Transformer model (we use 'all-MiniLM-L6-v2' lightweight multipurpose, can change later)
     model = SentenceTransformer('all-MiniLM-L6-v2')
 
-    # Define SQL query 
+    # Define SQL query
     sql = f"""
-        SELECT TOP ? Question_number, Question, Option,
+        SELECT TOP ? id
         FROM {table_name}
-        ORDER BY VECTOR_DOT_PRODUCT(Option_vector, TO_VECTOR(?)) DESC
+        ORDER BY VECTOR_DOT_PRODUCT(description_vector, TO_VECTOR(?)) DESC
     """
-    # Embed query phrase into 
-    query_vector = model.encode(query_phrase, normalize_embeddings=True).tolist() # Vectorize search phrase
-    
+    # Embed query phrase into
+    # Vectorize search phrase
+    query_vector = model.encode(
+        query_phrase, normalize_embeddings=True).tolist()
+
+    print(len(query_vector))
+
     # Execute SQL query
     cursor.execute(sql, [number_of_results, str(query_vector)])
 
@@ -89,4 +99,8 @@ def similarity_search(query_phrase, table_name, number_of_results, cursor):
     for i in results:
         print(i)
 
-    return results 
+    return results
+
+
+c = connect_to_IRIS(username, password, hostname, port, namespace)
+similarity_search("i am gay", "question_option", 10, c)

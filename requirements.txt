@@ -4,3 +4,9 @@ llama-iris
 llama-index-legacy
 google-genai
 dotenv
+google-cloud-aiplatform
+fastapi
+uvicorn
+python-dotenv
+sentence-transformers
+pydantic
