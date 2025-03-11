@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -25,7 +27,7 @@ a:hover {
 body {
   margin: 0;
   display: flex;
-  place-items: center;
+  place-items: top;
   min-width: 320px;
   min-height: 100vh;
 }
@@ -54,27 +56,63 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-.message-card-user {
-  border: 1px solid red;
-  padding: 14px 22px;
-  border-radius: 10px;
-  background-color: #9ADDF5;
-  color:black;
 
+.message-card {
+  display: inline-block; /* Wrap around text */
+  max-width: 75%; /* Prevent messages from stretching too wide */
+  word-wrap: break-word; /* Wrap text properly */
+  white-space: pre-wrap; /* Preserve new lines */
+  padding: 10px 16px;
+  margin: 5px;
+  border-radius: 10px;
+  text-align: left;
 }
 
 .message-card-bot {
-  border: 1px solid red;
-  padding: 14px 22px;
-  border-radius: 10px;
-  background-color: white;
-  color: black;
+  background-color: #f1f1f1;
+  align-self: flex-start; /* Align bot messages to the left */
 }
 
-.styles-messages-box {
+.message-card-user {
+  background-color: #022E6B;
+  color: white;
+  align-self: flex-end; /* Align user messages to the right */
+}
+
+.chatbot-container {
+  display: flex;
+  flex-direction: column;
+  border: 3px solid yellow;
+  position:relative;
+  height: 100%;
+  width: 360px;
+}
+.chat-messages-container {
   display:flex;
+  flex: 1;
   flex-direction: column;
   gap: 12px;
+  width: 100%;
+  overflow-y: auto;
+  max-height: 780px;
+}
+
+.chat-input-container {
+  display: flex;
+  align-items: center;
+  /* position:  absolute; */
+  /* bottom: 0px; */
+  width: 100%;
+  gap: 12px;
+  padding: 4px 12px;
+}
+
+.chat-input {
+  flex:1;
+  padding: 8px;
+  font-size: 12pt;
+  border-radius: 14px;
+  outline: none;
 }
 
 @media (prefers-color-scheme: light) {

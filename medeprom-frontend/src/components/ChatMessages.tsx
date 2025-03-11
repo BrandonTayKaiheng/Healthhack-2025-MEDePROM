@@ -6,14 +6,13 @@ interface ChatMessageProps {
 }
 
 function ChatMessages({ message }: ChatMessageProps) {
-  console.log(message);
   return (
-    <div className="styles-messages-box">
+    <div className="chat-messages-container">
       {message.map((m) => (
         <div
-          className={
+          className={`message-card ${
             m.role === "bot" ? "message-card-bot" : "message-card-user"
-          }
+          }`}
           key={m.text}
         >
           {m.text}

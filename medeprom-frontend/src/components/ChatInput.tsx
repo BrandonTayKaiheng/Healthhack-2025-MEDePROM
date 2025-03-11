@@ -1,3 +1,6 @@
+import "../index.css";
+import SendArrow from "../assets/SendArrow.svg";
+import { send } from "vite";
 interface ChatInputProps {
   newMessageText: string;
   setNewMessageText: (newMessage: string) => void;
@@ -10,13 +13,15 @@ function ChatInput({
   sendNewMessage,
 }: ChatInputProps) {
   return (
-    <div>
+    <div className="chat-input-container">
       <input
+        className="chat-input"
         type="text"
         value={newMessageText}
         onChange={(e) => setNewMessageText(e.target.value)}
+        placeholder="Type a message..."
       />
-      <button onClick={sendNewMessage}>Send</button>
+      <img src={SendArrow} alt="send" onClick={sendNewMessage} />
     </div>
   );
 }
