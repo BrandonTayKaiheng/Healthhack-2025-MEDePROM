@@ -2,13 +2,13 @@ import { Message } from "../types";
 import { Card } from "antd";
 import "../index.css";
 interface ChatMessageProps {
-  message: Message[];
+  messages: Message[];
 }
 
-function ChatMessages({ message }: ChatMessageProps) {
+function ChatMessages({ messages }: ChatMessageProps) {
   return (
     <div className="chat-messages-container">
-      {message.map((m) => (
+      {messages.map((m) => (
         <div
           className={`message-card ${
             m.role === "bot" ? "message-card-bot" : "message-card-user"

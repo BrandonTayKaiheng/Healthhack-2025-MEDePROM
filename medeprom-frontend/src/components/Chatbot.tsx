@@ -53,7 +53,8 @@ function Chatbot() {
 
   return (
     <div className="chatbot-container">
-      <ChatMessages message={testMessages} />
+      <div className="chat-header">MEDePROM</div>
+      <ChatMessages messages={testMessages} />
       <ChatInput
         newMessageText={newMessageText}
         setNewMessageText={setNewMessageText}

@@ -90,5 +90,5 @@ def start_chat(chat):
             display_msg_to_user(response)
 
 
-start_chat(chat)
+
 

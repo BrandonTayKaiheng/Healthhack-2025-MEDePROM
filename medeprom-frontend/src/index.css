@@ -82,10 +82,16 @@ button:focus-visible {
 .chatbot-container {
   display: flex;
   flex-direction: column;
-  border: 3px solid yellow;
+  justify-content: space-between;
   position:relative;
-  height: 100%;
-  width: 360px;
+  height: 100vh;
+  width: 400px;
+}
+
+.chat-header {
+  /* border: 1px solid blue; */
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-size: 20pt;
 }
 .chat-messages-container {
   display:flex;
@@ -94,11 +100,12 @@ button:focus-visible {
   gap: 12px;
   width: 100%;
   overflow-y: auto;
-  max-height: 780px;
+  /* max-height: 780px; */
 }
 
 .chat-input-container {
   display: flex;
+  flex: 0;
   align-items: center;
   /* position:  absolute; */
   /* bottom: 0px; */
@@ -113,6 +120,16 @@ button:focus-visible {
   font-size: 12pt;
   border-radius: 14px;
   outline: none;
+}
+
+.start-page-container {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
 }
 
 @media (prefers-color-scheme: light) {
