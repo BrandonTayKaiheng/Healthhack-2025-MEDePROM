@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from database import dbcontext
 from uuid import uuid4
@@ -29,6 +30,22 @@ db = dbcontext.DbContext(username, password, hostname, port, namespace)
 bot = Chatbot(gemini_api_key, db)
 
 # Request models
+
+
+# Define allowed origins
+origins = [
+    "http://localhost:5173",  # Allow requests from this origin
+    # Add more origins if needed
+]
+
+# Add CORSMiddleware to the FastAPI app
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,  # Allow these origins
+    allow_credentials=True,
+    allow_methods=["*"],  # Allow all HTTP methods
+    allow_headers=["*"],  # Allow all headers
+)
 
 
 class MessageRequest(BaseModel):

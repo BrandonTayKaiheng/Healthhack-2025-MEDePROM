@@ -3,14 +3,14 @@ FROM continuumio/miniconda3
 WORKDIR /app
 
 # Copy environment file
-COPY conda-env.txt .
+COPY req.txt .
+COPY install/ install/
 
 # Create conda environment
-RUN conda create --name myenv --file conda-env.txt
-SHELL ["conda", "run", "-n", "myenv", "/bin/bash", "-c"]
+RUN conda create --name myenv --file req.txt
 
-# Install IRIS Python package
-RUN pip install ./install/intersystems_irispython-5.0.1-8026-cp38.cp39.cp310.cp311.cp312-cp38.cp39.cp310.cp311.cp312-win_amd64.whl
+# Install IRIS Python package properly
+# RUN conda run -n myenv python -m pip install ./install/intersystems_irispython-5.0.1-8026-cp38.cp39.cp310.cp311.cp312-cp38.cp39.cp310.cp311.cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
 
 # Copy source code
 COPY . src/
