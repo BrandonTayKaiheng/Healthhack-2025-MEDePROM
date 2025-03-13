@@ -21,7 +21,12 @@ function ChatInput({
         onChange={(e) => setNewMessageText(e.target.value)}
         placeholder="Type a message..."
       />
-      <img src={SendArrow} alt="send" onClick={sendNewMessage} />
+      <img
+        className="send-arrow-button"
+        src={SendArrow}
+        alt="send"
+        onClick={sendNewMessage}
+      />
     </div>
   );
 }
