@@ -85,9 +85,8 @@ function Chatbot() {
         body: JSON.stringify({ session_id : sessionId }),
       })
         .then(r => r.json());
-        .then(data => setSessionId(data.session_id))
 
-
+      setSessionId(response.session_id)
       // Add initial bot message
       setMessages([{
         id: '1',

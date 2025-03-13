@@ -12,7 +12,7 @@ function WelcomeScreen() {
         <MessageCircle size={64} className="text-white" />
       </div>
       <h1 className="text-3xl font-bold text-white mb-4 text-center">
-        Welcome to ChatApp
+        Welcome to MEDePROM
       </h1>
       <p className="text-indigo-100 mb-8 text-center">
         Start a new conversation and connect instantly
