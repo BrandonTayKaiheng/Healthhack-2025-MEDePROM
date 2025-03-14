@@ -1,9 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import {
-  SendHorizontal,
-  ChevronLeft,
-  Loader2,
-} from "lucide-react";
+import { SendHorizontal, ChevronLeft, Loader2 } from "lucide-react";
 import { useNavigate } from "react-router";
 import MedepromLogo from "../../assets/MedepromLogo.svg";
 
@@ -62,8 +58,29 @@ const ChatMessages = ({
   messages: Message[];
   isTyping: boolean;
 }) => {
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+  };
+  const botMessages = messages.filter((msg) => msg.isBot);
+
+  useEffect(() => {
+    // scrollToBottom();
+    // window.scrollTo(0, document.body.scrollHeight);
+    // console.log(botMessages);
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
+
   return (
-    <div className="flex-1 overflow-y-auto p-4 space-y-4">
+    <div
+      className="flex-1 overflow-y-auto p-4 space-y-4"
+      style={{ overflowAnchor: "none" }}
+      ref={messagesEndRef}
+    >
       {messages.map((message) => (
         <div
           key={message.id}
@@ -94,7 +111,7 @@ const ChatMessages = ({
           </div>
         </div>
       )}
-      {/* <div ref={messagesEndRef} /> */}
+      <div ref={messagesEndRef} />
     </div>
   );
 };
@@ -108,11 +125,11 @@ function Chatbot() {
 
   const navigate = useNavigate();
 
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+  // const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const scrollToBottom = () => {
-    messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
-  };
+  // const scrollToBottom = () => {
+  //   messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+  // };
 
   const words = [
     "apple",
@@ -180,13 +197,13 @@ function Chatbot() {
     start();
   }, []);
 
-  const botMessages = messages.filter((msg) => msg.isBot);
+  // const botMessages = messages.filter((msg) => msg.isBot);
 
-  useEffect(() => {
-    // scrollToBottom();
-    // window.scrollTo(0, document.body.scrollHeight);
-    // console.log(botMessages);
-  }, [botMessages]);
+  // useEffect(() => {
+  //   // scrollToBottom();
+  //   // window.scrollTo(0, document.body.scrollHeight);
+  //   // console.log(botMessages);
+  // }, [botMessages]);
 
   const get_response = async (message: string) => {
     setIsTyping(true);
