@@ -17,29 +17,31 @@ function WelcomeScreen() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-white flex flex-col items-center justify-center p-6 gap-4">
-      <img src={Robot} alt="Robot" className="w-48 mb-8 translate-x-3" />
-      <img src={MedepromLogo} alt="MEDePROM" className="w-64 mb-8" />
-      {/* <h1 className="text-3xl font-bold text-black mb-4 text-center">
+    <div className="min-h-screen bg-light-grey flex flex-col items-center justify-center">
+      <div className="bg-white flex flex-col items-center justify-center p-10 gap-4 rounded-xl border border-gray-200 ">
+        <img src={Robot} alt="Robot" className="w-36 mb-4 translate-x-3" />
+        <img src={MedepromLogo} alt="MEDePROM" className="w-60 mb-8" />
+        {/* <h1 className="text-3xl font-bold text-black mb-4 text-center">
         Welcome to MEDePROM
       </h1> */}
-      {/* <p className="text-indigo-100 mb-8 text-center">
+        {/* <p className="text-indigo-100 mb-8 text-center">
         Start a new conversation and connect instantly
       </p> */}
-      <button
-        onClick={() => navigate("/chat")}
-        className="flex flex-row gap-3 bg-dark-blue text-white text-2xl px-8 py-3 rounded-xl font-semibold shadow-lg hover:bg-indigo-50 transition-colors transform hover:scale-105 duration-200"
-      >
-        Chat
-        <MessageCircle size={36} className="text-white" />
-      </button>
-      <button
-        onClick={() => navigate("/")}
-        className="flex flex-row gap-3 bg-orange text-white text-2xl px-8 py-3 rounded-xl font-semibold shadow-lg hover:bg-indigo-50 transition-colors transform hover:scale-105 duration-200"
-      >
-        Call
-        <Phone size={36} className="text-white" />
-      </button>
+        <button
+          onClick={() => navigate("/chat")}
+          className="flex flex-row justify-center w-56 gap-3 bg-dark-blue text-white text-2xl px-8 py-3 rounded-xl font-semibold hover:shadow-lg"
+        >
+          Chat
+          <MessageCircle size={36} className="text-white" />
+        </button>
+        <button
+          onClick={() => navigate("/")}
+          className="flex flex-row justify-center w-56 gap-3 bg-orange text-white text-2xl px-8 py-3 rounded-xl font-semibold hover:shadow-lg"
+        >
+          Call
+          <Phone size={36} className="text-white" />
+        </button>
+      </div>
     </div>
   );
 }
