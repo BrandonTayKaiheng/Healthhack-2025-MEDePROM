@@ -117,6 +117,7 @@ class Session:
             start_prompt = f"""Firstly, introduce yourself, then start by asking the patient about:
             {current_question.name}{"Description: " + current_question.description if current_question.description else ""}.
             You can refer to these possible answers: {[q.description for q in question_options]}.
+            Do not quote the options directly.
             Now, start this conversation with the patient."""
 
             self.record_history("user", True, start_prompt)
@@ -207,7 +208,8 @@ class Session:
 
                 prompt = f"""Next, ask the patient about:
                 {current_question.name}{"Description: " + current_question.description if current_question.description else ""}.
-                You can refer to these possible answers: {[q.description for q in question_options]}"""
+                You can refer to these possible answers: {[q.description for q in question_options]}
+                Do not quote the options directly."""
 
                 self.record_history("user", True, prompt)
 
