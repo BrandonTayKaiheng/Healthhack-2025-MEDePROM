@@ -131,48 +131,9 @@ function Chatbot() {
   //   messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
   // };
 
-  const words = [
-    "apple",
-    "banana",
-    "cherry",
-    "dragon",
-    "elephant",
-    "forest",
-    "guitar",
-    "hammer",
-    "island",
-    "jungle",
-    "kitten",
-    "lantern",
-    "mountain",
-    "notebook",
-    "ocean",
-    "penguin",
-    "quantum",
-    "river",
-    "sunset",
-    "tiger",
-    "umbrella",
-    "volcano",
-    "whisper",
-    "xylophone",
-    "yogurt",
-    "zeppelin",
-  ];
-
-  // function generateMemorableString() {
-  //   return Array.from(
-  //     { length: 4 },
-  //     () => words[Math.floor(Math.random() * words.length)]
-  //   ).join("-");
-  // }
-
   useEffect(() => {
     const start = async () => {
       setIsTyping(true);
-
-      // const session_id = generateMemorableString();
-      // setSessionId(session_id);
 
       const response = await fetch("http://localhost:8000/session", {
         method: "POST",
@@ -196,14 +157,6 @@ function Chatbot() {
     };
     start();
   }, []);
-
-  // const botMessages = messages.filter((msg) => msg.isBot);
-
-  // useEffect(() => {
-  //   // scrollToBottom();
-  //   // window.scrollTo(0, document.body.scrollHeight);
-  //   // console.log(botMessages);
-  // }, [botMessages]);
 
   const get_response = async (message: string) => {
     setIsTyping(true);
@@ -255,34 +208,6 @@ function Chatbot() {
             <img src={MedepromLogo} alt="MEDePROM" className="w-40 ml-2" />
           </div>
         </div>
-        {/* <div className="relative">
-          <button
-            onClick={() => setShowShareMenu(!showShareMenu)}
-            className="p-2 hover:bg-indigo-700 rounded-full transition-colors"
-          >
-            <Share2 size={20} />
-          </button>
-          {showShareMenu && (
-            <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-1 z-10">
-              <button
-                onClick={handleShare}
-                className="w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-100 flex items-center"
-              >
-                {copySuccess ? (
-                  <>
-                    <Check size={16} className="mr-2 text-green-500" />
-                    <span>Copied!</span>
-                  </>
-                ) : (
-                  <>
-                    <Copy size={16} className="mr-2" />
-                    <span>Copy conversation</span>
-                  </>
-                )}
-              </button>
-            </div>
-          )}
-        </div> */}
       </div>
 
       {/* Chat Messages Area */}
@@ -294,7 +219,6 @@ function Chatbot() {
     </div>
   );
 
-  // return sessionStarted ? <ChatInterface /> : <WelcomeScreen onButtonClick={() => setSessionStarted(true)} />;
   return <ChatInterface />;
 }
 
