@@ -32,7 +32,7 @@ services:
       - iris-data:/data
 
   frontend:
-    build: ./yolo
+    build: ./frontend
     depends_on:
       - backend
     ports:
